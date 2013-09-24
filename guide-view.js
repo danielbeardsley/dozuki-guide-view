@@ -4,13 +4,17 @@ Dozuki.GuideView = function (guide) {
        stepElements = []
    this.guide = guide;
 
-   var root = createElements({
-      tag: 'div',
-      c: 'guide-view',
-      children: createSteps()
-   })
+   $$('body').append(createUI());
 
-   $$('body').append(root);
+   function createUI() {
+      var children = createSteps()
+      children.splice(0,0,createIntro());
+      return createElements({
+         tag: 'div',
+         c: 'guide-view',
+         children: children
+      })
+   }
 
    function createSteps() {
       return _.map(guide.steps, function(step) {
@@ -19,7 +23,9 @@ Dozuki.GuideView = function (guide) {
    }
 
    function createIntro() {
-
+      return createElements({
+         html:  guide.introduction_rendered
+      })
    }
 };
 

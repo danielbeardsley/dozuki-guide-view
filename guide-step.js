@@ -8,12 +8,28 @@
       console.log(step)
       var element = createElements({
          tag: 'section',
-         c: c("guide"),
-         text: "Blah"
+         c: "guide-step",
+         children: [createMedia(step)]
       })
 
       this.getElement = function() {
          return element
       }
+   }
+
+   function createMedia(step) {
+      var media = step.media;
+      if (media.type == 'image') {
+         return createImages(step);
+      } else {
+         return "a video";
+      }
+   }
+
+   function createImages(step) {
+      return createElements({
+         tag: 'img',
+         src: step.media.data[0].standard
+      })
    }
 })(window)
