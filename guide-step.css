@@ -18,7 +18,7 @@ body {
    right:0;
    width: 280px;
    padding:10px;
-   overflow-y:scroll;
+   overflow-y:auto;
 }
 
 .guide-step .side-bar .thumb {
@@ -32,7 +32,7 @@ body {
    display: block;
    top: 0;
    bottom:0;
-   overflow:scroll;
+   overflow:auto;
 }
 
 .guide-step .large-media img {
