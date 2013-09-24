@@ -40,7 +40,7 @@
    }
 
    function createThumbnails(step) {
-      var thumbs = _.rest(step.media.data, 1).map(function(image) { 
+      var thumbs = _.map(step.media.data, function(image) { 
          return createElements({
             tag: 'img',
             c: 'thumb',

@@ -22,7 +22,12 @@ body {
 }
 
 .guide-step .side-bar .thumb {
-   margin-right:10px;
+   margin-right:8px;
+   border-radius:3px;
+   width:88px
+}
+.guide-step .side-bar .thumb:last-child {
+   margin-right:0;
 }
 
 .guide-step .large-media {
