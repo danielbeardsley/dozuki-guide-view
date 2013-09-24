@@ -28,8 +28,11 @@
 
    function createImages(step) {
       return createElements({
-         tag: 'img',
-         src: step.media.data[0].standard
+         c: 'large-media',
+         children: [createElements({
+            tag: 'img',
+            src: step.media.data[0].standard
+         })]
       })
    }
 })(window)

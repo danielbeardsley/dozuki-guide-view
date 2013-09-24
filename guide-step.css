@@ -1,9 +1,27 @@
 body {
    background-color:#f7f7f7;
 }
+
 .guide-step {
-   padding: 10px;
-   border-top: 2px solid #ddd;
+   position: absolute;
+   left: 0;
+   right: 0;
+   top: 0;
+   bottom:0;
 }
 
+.guide-step .text-area {
+}
 
+.guide-step .large-media {
+   position: absolute;
+   left: 0;
+   right: 200px;
+   display: block;
+   top: 0;
+   bottom:0;
+}
+
+.guide-step .large-media img {
+   width: 100%;
+}

@@ -12,7 +12,7 @@ Dozuki.GuideView = function (guide) {
       return createElements({
          tag: 'div',
          c: 'guide-view',
-         children: children
+         children: children.reverse()
       })
    }
 
