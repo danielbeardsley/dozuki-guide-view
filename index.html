@@ -1,13 +1,23 @@
 <html>
    <head>
-      <script type="text/javascript">
-         var Dozuki = {};
-      </script>
-      <script src="utils.js" type="text/javascript"></script>
       <script src="dummy-data.js" type="text/javascript"></script>
+
       <script src="deps/dozuki-js/dozuki.js" type="text/javascript"></script>
       <script src="deps/dozuki-js/wrappers/mock.http.js" type="text/javascript"></script>
+      <script src="deps/underscore/underscore.js" type="text/javascript"></script>
+      <script src="deps/QuoJS/package/quo.js" type="text/javascript"></script>
+      <script src="utils.js" type="text/javascript"></script>
       <script src="guide-view.js" type="text/javascript"></script>
+      <script src="guide-step.js" type="text/javascript"></script>
+      <script type="text/javascript">
+         $$(document).ready(function() {
+            var fakeHTTP = new Dozuki.http.mock(getDummyData());
+            var dozuki = new Dozuki("www.thisisfake.com", fakeHTTP);
+            dozuki.guides.get(1234).then(function(guide) {
+               var guideView = new Dozuki.GuideView(guide);
+            });
+         });
+      </script>
    </head>
    <body>
    </body>

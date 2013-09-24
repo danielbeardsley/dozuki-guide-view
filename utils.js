@@ -41,6 +41,7 @@ Dozuki.utils = (function() {
          var children   = config.children,
              tag        = config.tag,
              html       = config.html,
+             text       = config.text,
              className  = config.c;
 
          // Don't want these getting through as attributes
@@ -48,6 +49,7 @@ Dozuki.utils = (function() {
          delete config.tag;
          delete config.c;
          delete config.html;
+         delete config.text;
 
          var el = createElement(tag || 'div');
 
@@ -57,6 +59,10 @@ Dozuki.utils = (function() {
 
          if (html) {
             el.innerHTML = html;
+         }
+
+         if (text) {
+            el.appendChild(createElements(text));
          }
 
          for (var k in config) {
