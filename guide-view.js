@@ -8,7 +8,8 @@ Dozuki.GuideView = function (guide) {
 
    function createUI() {
       var children = createSteps()
-      children.splice(0,0,createIntro());
+      // Temporarily hide the intro during development
+      // children.splice(0,0,createIntro());
       return createElements({
          tag: 'div',
          c: 'guide-view',

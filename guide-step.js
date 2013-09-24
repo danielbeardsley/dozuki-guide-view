@@ -9,12 +9,48 @@
       var element = createElements({
          tag: 'section',
          c: "guide-step",
-         children: [createMedia(step)]
+         children: [createMedia(step), createSideBar(step)]
       })
 
       this.getElement = function() {
          return element
       }
+   }
+
+   function createSideBar(step) {
+      var thumbs = createThumbnails(step)
+      var stepText = createStepText(step)
+      return createElements({
+         c: 'side-bar',
+         children: [thumbs, stepText]
+      });
+   }
+
+   function createStepText(step) {
+      var lines = _.map(step.lines, function(line) {
+         return createElements({
+            tag: 'p',
+            html: line.text_rendered
+         })
+      })
+      return createElements({
+         c: 'step-lines',
+         children: lines
+      })
+   }
+
+   function createThumbnails(step) {
+      var thumbs = _.rest(step.media.data, 1).map(function(image) { 
+         return createElements({
+            tag: 'img',
+            c: 'thumb',
+            src: image.thumbnail
+         })
+      })
+      return createElements({
+         c: 'step-thumbs',
+         children: thumbs
+      })
    }
 
    function createMedia(step) {
@@ -31,7 +67,7 @@
          c: 'large-media',
          children: [createElements({
             tag: 'img',
-            src: step.media.data[0].standard
+            src: step.media.data[0].medium
          })]
       })
    }

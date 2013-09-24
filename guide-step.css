@@ -8,18 +8,31 @@ body {
    right: 0;
    top: 0;
    bottom:0;
+   background-color: #f7f7f7;
 }
 
-.guide-step .text-area {
+.guide-step .side-bar {
+   position: absolute;
+   top: 0;
+   bottom:0;
+   right:0;
+   width: 280px;
+   padding:10px;
+   overflow-y:scroll;
+}
+
+.guide-step .side-bar .thumb {
+   margin-right:10px;
 }
 
 .guide-step .large-media {
    position: absolute;
    left: 0;
-   right: 200px;
+   right: 300px;
    display: block;
    top: 0;
    bottom:0;
+   overflow:scroll;
 }
 
 .guide-step .large-media img {
