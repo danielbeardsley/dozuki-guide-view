@@ -4,9 +4,9 @@
 [submodule "deps/dozuki-js"]
 	path = deps/dozuki-js
 	url = https://github.com/danielbeardsley/dozuki-js
-[submodule "deps/QuoJS"]
-	path = deps/QuoJS
-	url = https://github.com/soyjavi/QuoJS
 [submodule "deps/underscore"]
 	path = deps/underscore
 	url = https://github.com/jashkenas/underscore
+[submodule "deps/package-quojs"]
+	path = deps/package-quojs
+	url = https://github.com/soyjavi/package-quojs
