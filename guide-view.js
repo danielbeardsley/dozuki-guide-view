@@ -18,7 +18,9 @@ Dozuki.GuideView = function (guide) {
    }
 
    function createSteps() {
-      return _.map(guide.steps, function(step) {
+      // For the time being, just grab the first step
+      var steps = [guide.steps[0]];
+      return _.map(steps, function(step) {
          return new GuideStep(step).getElement();
       })
    }

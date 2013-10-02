@@ -41,11 +41,10 @@
 
    function createThumbnails(step) {
       var thumbs = _.map(step.media.data, function(image) { 
-         return createElements({
-            tag: 'img',
+         return utils.responsiveImage({
             c: 'thumb',
-            src: image.thumbnail
-         })
+            desiredWidth: 88
+         }, image)
       })
       return createElements({
          c: 'step-thumbs',
@@ -65,10 +64,11 @@
    function createImages(step) {
       return createElements({
          c: 'large-media',
-         children: [createElements({
-            tag: 'img',
-            src: step.media.data[0].medium
-         })]
+         
+         children: [utils.responsiveImage({
+            c: 'thumb',
+            desiredWidth: document.width - 300
+         }, step.media.data[0])]
       })
    }
 })(window)

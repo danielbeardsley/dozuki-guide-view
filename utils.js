@@ -1,4 +1,14 @@
 Dozuki.utils = (function() {
+   var imageSizes = [
+      {width: 50, name: 'mini'},
+      {width: 96, name: 'thumbnail'},
+      {width: 300, name: 'standard'},
+      {width: 592, name: 'medium'},
+      {width: 800, name: 'large'},
+      {width: 1600, name: 'huge'},
+      {width: 9999999, name: 'original'}
+   ];
+
    // This is used when iterating over properties in an object, to ensure we can
    // check if a property is actually used in the object, vs it's prototype chain
    var hasOwnProperty = function(obj, prop){
@@ -15,6 +25,18 @@ Dozuki.utils = (function() {
    }
 
    return {
+      responsiveImage: function (options, urls) {
+         var devPixelRatio = (window.devicePixelRatio || 1);
+         var desiredDevicePixels = options.desiredWidth * devPixelRatio;
+         var appropriateSize = getImageSizeWiderThan(desiredDevicePixels, urls);
+
+         delete options.desiredWidth;
+         options.src = urls[appropriateSize];
+         options.tag = 'img';
+
+         return createElements(options);
+      },
+
       /**
        * Helper function to create a DOM structure
        *
@@ -29,57 +51,7 @@ Dozuki.utils = (function() {
        *    passed to this function]
        * }
        */
-      createElements: function createElements(config){
-         if (typeof(config) === 'string') {
-            return document.createTextNode(config);
-         }
-
-         // If this is already a DOM element, just return it;
-         if (config.tagName) return config;
-
-         // parameters with special meanings
-         var children   = config.children,
-             tag        = config.tag,
-             html       = config.html,
-             text       = config.text,
-             className  = config.c;
-
-         // Don't want these getting through as attributes
-         delete config.children;
-         delete config.tag;
-         delete config.c;
-         delete config.html;
-         delete config.text;
-
-         var el = createElement(tag || 'div');
-
-         if (className) {
-            el.className = className;
-         }
-
-         if (html) {
-            el.innerHTML = html;
-         }
-
-         if (text) {
-            el.appendChild(createElements(text));
-         }
-
-         for (var k in config) {
-            if (!hasOwnProperty(config, k))
-               continue;
-
-            el.setAttribute(k, config[k]);
-         }
-
-         if (children) {
-            for (var i = 0; i < children.length; i++) {
-               el.appendChild(createElements(children[i]));
-            }
-         }
-
-         return el;
-      },
+      createElements: createElements,
 
       hasOwnProperty: hasOwnProperty,
 
@@ -88,7 +60,72 @@ Dozuki.utils = (function() {
       }
    };
 
+   function createElements(config){
+      if (typeof(config) === 'string') {
+         return document.createTextNode(config);
+      }
+
+      // If this is already a DOM element, just return it;
+      if (config.tagName) return config;
+
+      // parameters with special meanings
+      var children   = config.children,
+          tag        = config.tag,
+          html       = config.html,
+          text       = config.text,
+          className  = config.c;
+
+      // Don't want these getting through as attributes
+      delete config.children;
+      delete config.tag;
+      delete config.c;
+      delete config.html;
+      delete config.text;
+
+      var el = createElement(tag || 'div');
+
+      if (className) {
+         el.className = className;
+      }
+
+      if (html) {
+         el.innerHTML = html;
+      }
+
+      if (text) {
+         el.appendChild(createElements(text));
+      }
+
+      for (var k in config) {
+         if (!hasOwnProperty(config, k))
+            continue;
+
+         el.setAttribute(k, config[k]);
+      }
+
+      if (children) {
+         for (var i = 0; i < children.length; i++) {
+            el.appendChild(createElements(children[i]));
+         }
+      }
+
+      return el;
+   }
+
    function createElement(tag){
       return document.createElement(tag);
+   }
+
+   function getImageSizeWiderThan(width, urls) {
+      var largestExistingSize;
+      for (var i=0; i< imageSizes.length; i++) {
+         if (urls[imageSizes[i].name]){
+            largestExistingSize = imageSizes[i].name;
+            if (imageSizes[i].width > width) { 
+               return imageSizes[i].name;
+            }
+         }
+      }
+      return largestExistingSize;
    }
 })();
