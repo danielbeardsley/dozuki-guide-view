@@ -1,12 +1,47 @@
 body {
    background-color:#f7f7f7;
+   font-family: Helvetica, Arial, sans-serif;
 }
+
+/***************************************************************************
+ * Header
+ */
+
+header {
+   height:40px;
+   position:absolute;
+   top:0;
+   left:0;
+   right:0;
+   background: #333;
+   color:white;
+}
+
+header > a {
+   padding:0 20px;
+   line-height:40px;
+   color:#AAA;
+   cursor:pointer;
+   font-size:13px;
+}
+
+header > a:hover {
+   color:#ccc;
+}
+
+header > .next {
+   float:right;
+}
+
+/***************************************************************************
+ * Step 
+ */
 
 .guide-step {
    position: absolute;
    left: 0;
    right: 0;
-   top: 0;
+   top: 40px;
    bottom:0;
    background-color: #f7f7f7;
 }

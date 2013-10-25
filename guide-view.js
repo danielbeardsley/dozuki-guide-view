@@ -10,6 +10,7 @@ Dozuki.GuideView = function (guide) {
       var children = createSteps()
       // Temporarily hide the intro during development
       // children.splice(0,0,createIntro());
+      children.push(createTopBar())
       return createElements({
          tag: 'div',
          c: 'guide-view',
@@ -29,6 +30,21 @@ Dozuki.GuideView = function (guide) {
       return createElements({
          html:  guide.introduction_rendered
       })
+   }
+
+   function createTopBar() {
+      return createElements({
+         tag: 'header',
+         children: [{
+            tag:  'a',
+            c:    'previous',
+            text: '< Previous Step'
+         },{
+            tag:  'a',
+            c:    'next',
+            text: 'Next Step >'
+         }]
+      });
    }
 };
 
