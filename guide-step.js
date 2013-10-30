@@ -26,14 +26,21 @@
       });
    }
 
+   /**
+    * Creates and returns a series of nested UL/LI tags that represent the step
+    * lines.
+    */
    function createStepText(step) {
       var lines = _.map(step.lines, function(line) {
          return createElements({
-            tag: 'p',
+            tag:  'li',
+            c:    'step-line indent-' + line.level,
             html: line.text_rendered
          })
       })
+
       return createElements({
+         tag: 'ul',
          c: 'step-lines',
          children: lines
       })
