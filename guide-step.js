@@ -6,11 +6,11 @@
    window.GuideStep = function(step) {
       this.data = step
       console.log(step)
-      var element = createElements({
+      var element = $$(createElements({
          tag: 'section',
          c: "guide-step",
          children: [createMedia(step), createSideBar(step)]
-      })
+      }))
 
       this.getElement = function() {
          return element

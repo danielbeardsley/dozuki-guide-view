@@ -73,11 +73,13 @@ Dozuki.utils = (function() {
           tag        = config.tag,
           html       = config.html,
           text       = config.text,
+          events     = config.on,
           className  = config.c;
 
       // Don't want these getting through as attributes
       delete config.children;
       delete config.tag;
+      delete config.on;
       delete config.c;
       delete config.html;
       delete config.text;
@@ -106,6 +108,12 @@ Dozuki.utils = (function() {
       if (children) {
          for (var i = 0; i < children.length; i++) {
             el.appendChild(createElements(children[i]));
+         }
+      }
+
+      if (events) {
+         for (var eventName in events) {
+            el.addEventListener(eventName, events[eventName]);
          }
       }
 
