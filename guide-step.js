@@ -74,7 +74,7 @@
          
          children: [utils.responsiveImage({
             c: 'thumb',
-            desiredWidth: document.width - 300
+            desiredWidth: document.body.clientWidth - 300
          }, step.media.data[0])]
       })
    }
