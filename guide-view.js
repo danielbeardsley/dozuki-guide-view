@@ -112,7 +112,7 @@ Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
       step = renderedSteps[number] = new GuideStep(steps[number]);
       var stepEl = step.getElement();
       stepEl.hide();
-      $$(containerEl).append(stepEl);
+      containerEl.append(stepEl);
       return step;
    }
 }

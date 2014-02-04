@@ -66,7 +66,7 @@ Dozuki.utils = (function() {
       }
 
       // If this is already a DOM element, just return it;
-      if (config.tagName) return config;
+      if (config.tagName || (config[0] && config[0].tagName)) return config;
 
       // parameters with special meanings
       var children   = config.children,
@@ -87,33 +87,33 @@ Dozuki.utils = (function() {
       var el = createElement(tag || 'div');
 
       if (className) {
-         el.className = className;
+         el.attr('class', className);
       }
 
       if (html) {
-         el.innerHTML = html;
+         el.html(html);
       }
 
       if (text) {
-         el.appendChild(createElements(text));
+         el.append(createElements(text));
       }
 
       for (var k in config) {
          if (!hasOwnProperty(config, k))
             continue;
 
-         el.setAttribute(k, config[k]);
+         el.attr(k, config[k]);
       }
 
       if (children) {
          for (var i = 0; i < children.length; i++) {
-            el.appendChild(createElements(children[i]));
+            el.append(createElements(children[i]));
          }
       }
 
       if (events) {
          for (var eventName in events) {
-            el.addEventListener(eventName, events[eventName]);
+            el.on(eventName, events[eventName]);
          }
       }
 
@@ -121,7 +121,7 @@ Dozuki.utils = (function() {
    }
 
    function createElement(tag){
-      return document.createElement(tag);
+      return $$(document.createElement(tag));
    }
 
    function getImageSizeWiderThan(width, urls) {
