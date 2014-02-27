@@ -24,7 +24,17 @@ Dozuki.utils = (function() {
       }
    }
 
+   var templates = {};
    return {
+      render: function (template, data) {
+         if (!templates[template]) {
+            templates[template] = Handlebars.compile(template);
+         }
+         var div = document.createElement('div');
+         div.innerHTML = templates[template](data);;
+         return div.firstElementChild;
+      },
+
       responsiveImage: function (options, urls) {
          var devPixelRatio = (window.devicePixelRatio || 1);
          var desiredDevicePixels = options.desiredWidth * devPixelRatio;

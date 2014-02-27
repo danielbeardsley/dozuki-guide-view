@@ -31,19 +31,12 @@
     * lines.
     */
    function createStepText(step) {
-      var lines = _.map(step.lines, function(line) {
-         return createElements({
-            tag:  'li',
-            c:    'step-line indent-' + line.level,
-            html: line.text_rendered
-         })
-      })
-
-      return createElements({
-         tag: 'ul',
-         c: 'step-lines',
-         children: lines
-      })
+      return utils.render(
+      '<ul class="step-lines"> \
+      {{#lines}} \
+         <li class="step-line indent-{{level}}">{{&text_rendered}}</li> \
+      {{/lines}} \
+      </ul>', step);
    }
 
    function createThumbnails(step) {
