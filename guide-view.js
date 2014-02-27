@@ -10,13 +10,14 @@ Dozuki.GuideView = function (guide) {
    function createUI() {
       var container = createElements({
          tag: 'div',
-         c: 'guide-view',
-         children: [createTopBar()]
+         c: 'guide-view'
       })
       stepController = new Dozuki.StepsController(
          guide.steps,
          container,
          Dozuki.Transitions.immediate);
+
+      container.append(createTopBar());
       stepController.show(0);
       return container;
    }
@@ -36,6 +37,10 @@ Dozuki.GuideView = function (guide) {
    }
 
    function createTopBar() {
+      stepController.on('stepChange', function(number) {
+         $('#stepNumber').text(number);
+      });
+      $('#stepCount').text(guide.steps.length);
       return $('#header')
       .on('click', '.previous', function() {stepController.showPrev();})
       .on('click', '.next',     function() {stepController.showNext();});
@@ -61,6 +66,7 @@ Dozuki.Transitions = {
  *        step to another.
  */
 Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
+   var self = this;
    var renderedSteps = {};
    var currentStepNumber = -1;
 
@@ -69,6 +75,7 @@ Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
       var toStep = getStep(number);
       transitionFunction(fromStep, toStep);
       currentStepNumber = number;
+      self.trigger('stepChange', number+1);
    }
    this.show = show;
 
@@ -99,4 +106,6 @@ Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
       return step;
    }
 }
+
+Dozuki.utils.eventize(Dozuki.StepsController);
 

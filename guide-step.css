@@ -15,6 +15,8 @@ header {
    right:0;
    background: #111;
    color:#aaa;
+   line-height:50px;
+   text-align:center;
 }
 
 header > a > i {
@@ -32,7 +34,6 @@ header > a.next > i {
 
 header > a {
    padding:0 23px;
-   line-height:50px;
    cursor:pointer;
    font-size:14px;
 }
@@ -41,8 +42,16 @@ header > a:hover {
    color:#ccc;
 }
 
+header > .previous {
+   float:left;
+}
 header > .next {
    float:right;
+}
+
+#currentStep {
+   color: white;
+   font-size:20px;
 }
 
 /***************************************************************************

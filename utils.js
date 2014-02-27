@@ -26,6 +26,25 @@ Dozuki.utils = (function() {
 
    var templates = {};
    return {
+      /**
+       * Given a Constructor function, this adds both .on() and .trigger() to
+       * its prototype allowing the consumption and broadcasting of events.
+       */
+      eventize: function (constructor) {
+         constructor.prototype.on = function(event, callback) {
+            if (!this._events) this._events = {};
+            if (!this._events[event]) this._events[event] = [];
+            this._events[event].push(callback);
+         };
+         constructor.prototype.trigger = function(event) {
+            if (!this._events) return;
+            var args = $.makeArray(arguments);
+            $.each(this._events[event], function(i, handler) {
+               handler.apply(this, args.slice(1));
+            });
+         }
+      },
+
       render: function (template, data) {
          if (!templates[template]) {
             templates[template] = Handlebars.compile(template);
