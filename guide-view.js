@@ -36,26 +36,9 @@ Dozuki.GuideView = function (guide) {
    }
 
    function createTopBar() {
-      var prev = createElements({
-         tag:  'a',
-         c:    'previous',
-         text: '< Previous Step',
-         on: {
-            click: function() { stepController.showPrev(); }
-         }
-      });
-      var next = createElements({
-         tag:  'a',
-         c:    'next',
-         text: 'Next Step >',
-         on: {
-            click: function() { stepController.showNext(); }
-         }
-      });
-      return createElements({
-         tag: 'header',
-         children: [prev,next]
-      });
+      return $('#header')
+      .on('click', '.previous', function() {stepController.showPrev();})
+      .on('click', '.next',     function() {stepController.showNext();});
    }
 };
 

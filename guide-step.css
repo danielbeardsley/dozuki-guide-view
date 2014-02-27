@@ -8,21 +8,33 @@ body {
  */
 
 header {
-   height:40px;
+   height:50px;
    position:absolute;
    top:0;
    left:0;
    right:0;
-   background: #333;
-   color:white;
+   background: #111;
+   color:#aaa;
+}
+
+header > a > i {
+   color:#666;
+   vertical-align:middle;
+   margin-bottom:1px;
+}
+
+header > a.previous > i {
+   margin-right:10px;
+}
+header > a.next > i {
+   margin-left:10px;
 }
 
 header > a {
-   padding:0 20px;
-   line-height:40px;
-   color:#AAA;
+   padding:0 23px;
+   line-height:50px;
    cursor:pointer;
-   font-size:13px;
+   font-size:14px;
 }
 
 header > a:hover {
@@ -41,7 +53,7 @@ header > .next {
    position: absolute;
    left: 0;
    right: 0;
-   top: 40px;
+   top: 50px;
    bottom:0;
    background-color: #f7f7f7;
 }
