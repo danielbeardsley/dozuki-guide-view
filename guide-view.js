@@ -5,7 +5,7 @@ Dozuki.GuideView = function (guide) {
        stepController;
    this.guide = guide;
 
-   $$('body').append(createUI());
+   $('body').append(createUI());
 
    function createUI() {
       var container = createElements({

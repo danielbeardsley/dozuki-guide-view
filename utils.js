@@ -131,7 +131,7 @@ Dozuki.utils = (function() {
    }
 
    function createElement(tag){
-      return $$(document.createElement(tag));
+      return $(document.createElement(tag));
    }
 
    function getImageSizeWiderThan(width, urls) {
