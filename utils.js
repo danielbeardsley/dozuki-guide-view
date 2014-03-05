@@ -25,7 +25,7 @@ Dozuki.utils = (function() {
    }
 
    var templates = {};
-   return {
+   var utils = {
       /**
        * Given a Constructor function, this adds both .on() and .trigger() to
        * its prototype allowing the consumption and broadcasting of events.
@@ -45,12 +45,23 @@ Dozuki.utils = (function() {
          }
       },
 
+      /**
+       * Given a handlebars template and some data, render it and return the
+       * DOM element.
+       */
       render: function (template, data) {
          if (!templates[template]) {
             templates[template] = Handlebars.compile(template);
          }
+         return utils.html(templates[template](data));
+      },
+
+      /**
+       * Returns a DOM element constructed with the given HTML.
+       */
+      html: function (html) {
          var div = document.createElement('div');
-         div.innerHTML = templates[template](data);;
+         div.innerHTML = html;
          return div.firstElementChild;
       },
 
@@ -88,6 +99,8 @@ Dozuki.utils = (function() {
          return "dozuki-" + name;
       }
    };
+
+   return utils;
 
    function createElements(config){
       if (typeof(config) === 'string') {
