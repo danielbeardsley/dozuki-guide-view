@@ -103,9 +103,11 @@ header > .next {
 }
 
 .guide-step .side-bar .thumb {
-   margin-right:8px;
-   border-radius:3px;
-   width:88px
+   border-radius:10px;
+   overflow:hidden;
+   width:29%;
+   margin-right:4%;
+   border: solid 1px #eee;
 }
 .guide-step .side-bar .thumb:last-child {
    margin-right:0;
