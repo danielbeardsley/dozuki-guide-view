@@ -5,7 +5,6 @@
 
    window.GuideStep = function(step) {
       this.data = step
-      console.log(step)
       var element = createElements({
          tag: 'section',
          c: "guide-step",
