@@ -19,10 +19,17 @@ header {
    text-align:center;
 }
 
+header > .fullscreen:hover {
+   color: #ccc;
+   border-color: #ccc;
+}
+
 header > .fullscreen {
-   font-size:20px;
+   font-size:22px;
    margin-left:30px;
    cursor: pointer;
+   /* without this the icons align properly */
+   line-height: 1.9em;
 }
 
 header > a > i {

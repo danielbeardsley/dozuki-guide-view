@@ -136,11 +136,11 @@ Dozuki.KeyboardControl = function(stepsController) {
 
 Dozuki.FullScreen = function(container) {
    var element = container[0];
-
-   var expandControl =  $(
-      '<span class="fullscreen">\
-         <i class="fa fa-expand fa-lg"/>\
-      </span>');
+   var expandControl = $(Dozuki.utils.html(
+      '<span class="fa-stack fa-lg fullscreen">\
+         <i class="fa fa-square-o fa-stack-2x"></i>\
+         <i class="fa fa-expand fa-stack-1x"></i>\
+      </span>'));
    expandControl.click(fullScreen);
    container.children('#header').append(expandControl);
 
