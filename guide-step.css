@@ -32,10 +32,11 @@ header > .fullscreen {
    line-height: 1.9em;
 }
 
-header > a > i {
+header > a > i.fa {
    color:#666;
    vertical-align:middle;
    margin-bottom:1px;
+   line-height:50px;
 }
 
 header > a.previous > i {
@@ -65,6 +66,12 @@ header > .next {
 #currentStep {
    color: white;
    font-size:20px;
+}
+
+@media (max-width: 700px) {
+   header .label{
+      display:none;
+   }
 }
 
 /***************************************************************************
