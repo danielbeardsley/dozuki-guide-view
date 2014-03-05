@@ -19,6 +19,8 @@ Dozuki.GuideView = function (guide) {
 
       container.append(createTopBar());
       stepController.show(0);
+      new Dozuki.KeyboardControl(stepController);
+      new Dozuki.FullScreen(container);
       return container;
    }
 
@@ -121,3 +123,35 @@ Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
 
 Dozuki.utils.eventize(Dozuki.StepsController);
 
+Dozuki.KeyboardControl = function(stepsController) {
+   $(document).keyup(function(event) {
+      switch (event.which) {
+         case 37: stepsController.showPrev();
+            break;
+         case 39: stepsController.showNext();
+            break;
+      }
+   });
+}
+
+Dozuki.FullScreen = function(container) {
+   var element = container[0];
+
+   var expandControl =  $(
+      '<span class="fullscreen">\
+         <i class="fa fa-expand fa-lg"/>\
+      </span>');
+   expandControl.click(fullScreen);
+   container.children('#header').append(expandControl);
+
+   function fullScreen() {
+      var propName = 'RequestFullScreen';
+      var func = element['moz' + propName] ||
+                 element['ms' + propName] ||
+                 element['webkit' + propName] ||
+                 element[propName];
+      if (func) {
+         func.call(element);
+      }
+   }
+}
