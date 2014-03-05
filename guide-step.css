@@ -98,6 +98,10 @@ header > .next {
    box-shadow: -3px 0 20px rgba(0,0,0,0.2);
 }
 
+.guide-step .step-thumbs {
+   text-align:center;
+}
+
 .guide-step .side-bar .thumb {
    margin-right:8px;
    border-radius:3px;
