@@ -81,16 +81,20 @@ Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
 
    this.showNext =
    function showNext() {
-      if (currentStepNumber >= steps.length)
+      var number = currentStepNumber + 1;
+      if (number >= steps.length)
          return; 
-      show(currentStepNumber + 1);
+      show(number);
+      preloadStep(number + 1)
    }
 
    this.showPrev =
    function showPrev() {
-      if (currentStepNumber <= 0)
+      var number = currentStepNumber - 1;
+      if (number < 0)
          return; 
-      show(currentStepNumber - 1);
+      show(number);
+      preloadStep(number - 1)
    }
 
    function getStep(number) {
@@ -104,6 +108,14 @@ Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
       stepEl.hide();
       containerEl.append(stepEl);
       return step;
+   }
+
+   /**
+    * Load the resources needed for the provided step. Effectively just add it
+    * to the DOM
+    */
+   function preloadStep(number) {
+      getStep(number);
    }
 }
 
