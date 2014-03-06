@@ -127,6 +127,16 @@ header > .next {
 .guide-step .large-media img {
    max-width:100%;
    max-height:100%;
+   width:100%;
+}
+
+@media (max-width: 700px) {
+   .guide-step .side-bar,
+   .guide-step .large-media {
+      position: static;
+      width:auto;
+      box-shadow: none;
+   }
 }
 
 /***************************************************************************
@@ -139,3 +149,8 @@ li.step-line {
 li.indent-1 {
    margin-left: 30px;
 }
+
+ul.step-lines {
+   padding-left:1.2em;
+}
+
