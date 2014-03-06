@@ -66,6 +66,7 @@
          
          children: [utils.responsiveImage({
             id: 'step-media-' + step.stepid,
+            useParentWidth: true,
             initialWidth: document.body.clientWidth
          }, step.media.data[0], 'step-image')]
       })

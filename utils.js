@@ -83,13 +83,14 @@ Dozuki.utils = (function() {
 
          var initialWidth = responsiveImageInitialDimensions[positionName] ||
                             options.initialWidth;
-         delete myOptions.initialWidth;
 
          myOptions.tag = 'img';
          myOptions.c = (options.c||'') + " img responsive";
          myOptions.src = chooseImageUrlByWidth(initialWidth, urls);
 
-         var img = createElements(myOptions);
+         var img = createElements(_.omit(
+          myOptions, 'initialWidth', 'useParentWidth'));
+
          myOptions.urls = urls;
          myOptions.positionName = positionName;
          img.data('options', myOptions);
@@ -102,13 +103,21 @@ Dozuki.utils = (function() {
        * container.
        */
       adjustResponsiveImage: function(img) {
-         if (!img.is(':visible')) {
-            return;
+         var options = img.data('options');
+         var initialDimensions = responsiveImageInitialDimensions;
+         var width = options.useParentWidth ? img.parent().width() : img.width();
+         /**
+          * If an image isn't visible (display: none), its width is at best 0
+          * or at worst, undefined, effectively useless. So, for hidden
+          * images, use the last reliable width for this placename
+          */
+         if (img.is(':visible')) {
+            initialDimensions[options.positionName] = width;
+         } else {
+            width = initialDimensions[options.positionName];
          }
 
-         var options = img.data('options');
-         responsiveImageInitialDimensions[options.positionName] = img.width();
-         img.attr('src', chooseImageUrlByWidth(img.width(), options.urls));
+         img.attr('src', chooseImageUrlByWidth(width, options.urls));
       },
 
       adjustAllResponsiveImages: function() {
