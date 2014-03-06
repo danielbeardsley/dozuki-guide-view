@@ -58,9 +58,12 @@ Dozuki.GuideView = function (guide) {
 };
 
 Dozuki.Transitions = {
-   immediate: function immediateTransition(fromStep, toStep) {
-      if (fromStep) fromStep.getElement().hide();
-      toStep.getElement().show();
+   immediate: function immediateTransition(stepController) {
+      stepController.on('stepChange',
+      function (number, fromStep, toStep) {
+         if (fromStep) fromStep.getElement().hide();
+         toStep.getElement().show();
+      });
    }
 }
 
@@ -75,7 +78,7 @@ Dozuki.Transitions = {
  *        GuideStep objects. This function should transition the UI from one
  *        step to another.
  */
-Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
+Dozuki.StepsController = function(steps, containerEl) {
    var self = this;
    var renderedSteps = {};
    var currentStepNumber = -1;
@@ -83,10 +86,10 @@ Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
    function show(number) {
       var fromStep = getStep(currentStepNumber);
       var toStep = getStep(number);
-      transitionFunction(fromStep, toStep);
       currentStepNumber = number;
-      self.trigger('stepChange', number+1);
+      self.trigger('stepChange', number+1, fromStep, toStep);
    }
+
    this.show = show;
 
    this.showNext =
@@ -125,7 +128,7 @@ Dozuki.StepsController = function(steps, containerEl, transitionFunction) {
     * to the DOM
     */
    function preloadStep(number) {
-      getStep(number);
+      self.trigger('stepPreload', getStep(number));
    }
 }
 
