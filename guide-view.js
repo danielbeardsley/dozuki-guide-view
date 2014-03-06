@@ -24,6 +24,11 @@ Dozuki.GuideView = function (guide) {
          Dozuki.utils.adjustAllResponsiveImages();
       });
       stepController.show(0);
+
+      var resizeResponsiveImages = Dozuki.utils.throttler(
+       500, Dozuki.utils.adjustAllResponsiveImages).fire;
+      $(window).resize(resizeResponsiveImages);
+
       return container;
    }
 
