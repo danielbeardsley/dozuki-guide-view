@@ -118,39 +118,6 @@ Dozuki.utils = (function() {
       },
 
       /**
-       * Returns an interface for throttling a function call
-       * (similar to mootools` :pause Event pseudo)
-       *
-       * fire() can be called as many times as needed, but the
-       * callback is called when fire() hasn't been called for `delay`
-       * milliseconds.
-       *
-       * calling fireNow() executes callback() immediately and clears the timer.
-       */
-      throttler: function (delay, callback) {
-         var timer;
-
-         function fireNow() {
-            clear();
-            callback.apply(this, arguments);
-         }
-
-         function fireLater() {
-            clear();
-            timer = setTimeout(fireNow, delay);
-         }
-
-         function clear() {
-            clearTimeout(timer);
-         }
-
-         return {
-            fire:    fireLater,
-            fireNow: fireNow
-         };
-      },
-
-      /**
        * Helper function to create a DOM structure
        *
        * Pass it an object like the following:
