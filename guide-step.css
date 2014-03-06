@@ -1,6 +1,17 @@
 body {
    background-color:#f7f7f7;
    font-family: Helvetica, Arial, sans-serif;
+   width:100%;
+   margin:0;
+}
+
+.guide-view {
+   position:absolute;
+   top:0;
+   bottom:0;
+   right:0;
+   left:0;
+   overflow-x:hidden;
 }
 
 /***************************************************************************
@@ -127,7 +138,6 @@ header > .next {
 .guide-step .large-media img {
    max-width:100%;
    max-height:100%;
-   width:100%;
 }
 
 @media (max-width: 700px) {
@@ -136,6 +146,11 @@ header > .next {
       position: static;
       width:auto;
       box-shadow: none;
+   }
+   .guide-step .large-media img {
+      /* For some reason in narrow mode, the image is X px high, but it's
+       * container is X-1 pixels high, causing scrolling. */
+      margin-bottom: 1px;
    }
 }
 
