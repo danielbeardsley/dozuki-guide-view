@@ -42,8 +42,8 @@
       var thumbs = _.map(step.media.data, function(image) { 
          return utils.responsiveImage({
             c: 'thumb',
-            desiredWidth: 88
-         }, image)
+            initialWidth: 150
+         }, image, 'step-thumb')
       })
       return createElements({
          c: 'step-thumbs',
@@ -65,9 +65,9 @@
          c: 'large-media',
          
          children: [utils.responsiveImage({
-            c: 'thumb',
-            desiredWidth: document.body.clientWidth - 300
-         }, step.media.data[0])]
+            id: 'step-media-' + step.stepid,
+            initialWidth: document.body.clientWidth
+         }, step.media.data[0], 'step-image')]
       })
    }
 })(window)

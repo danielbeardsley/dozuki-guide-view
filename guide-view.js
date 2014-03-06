@@ -18,9 +18,12 @@ Dozuki.GuideView = function (guide) {
          Dozuki.Transitions.immediate);
 
       container.append(createTopBar());
-      stepController.show(0);
       new Dozuki.KeyboardControl(stepController);
       new Dozuki.FullScreen(container);
+      stepController.on('stepChange', function(number) {
+         Dozuki.utils.adjustAllResponsiveImages();
+      });
+      stepController.show(0);
       return container;
    }
 

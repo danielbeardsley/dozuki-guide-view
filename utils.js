@@ -25,6 +25,7 @@ Dozuki.utils = (function() {
    }
 
    var templates = {};
+   var responsiveImageInitialDimensions = {};
    var utils = {
       /**
        * Given a Constructor function, this adds both .on() and .trigger() to
@@ -65,16 +66,55 @@ Dozuki.utils = (function() {
          return div.firstElementChild;
       },
 
-      responsiveImage: function (options, urls) {
-         var devPixelRatio = (window.devicePixelRatio || 1);
-         var desiredDevicePixels = options.desiredWidth * devPixelRatio;
-         var appropriateSize = getImageSizeWiderThan(desiredDevicePixels, urls);
+      /**
+       * Create an img tag with the given attibutes (most are passed straight
+       * to createElements) using the most appropriate url form the given size
+       * map.
+       *
+       * @options:
+       *    initialWidth: Initial width for the created img. Further calls to
+       *                  adjustResponsiveImage() will ignore this option but
+       *                  an initial width has to be guessed.
+       * @urls: A mapping of size-name: url
+       */
+      responsiveImage: function (options, urls, positionName) {
+         // clone the options cause we'll be modifying it
+         var myOptions = $.extend({}, options);
 
-         delete options.desiredWidth;
-         options.src = urls[appropriateSize];
-         options.tag = 'img';
+         var initialWidth = responsiveImageInitialDimensions[positionName] ||
+                            options.initialWidth;
+         delete myOptions.initialWidth;
 
-         return createElements(options);
+         myOptions.tag = 'img';
+         myOptions.c = (options.c||'') + " img responsive";
+         myOptions.src = chooseImageUrlByWidth(initialWidth, urls);
+
+         var img = createElements(myOptions);
+         myOptions.urls = urls;
+         myOptions.positionName = positionName;
+         img.data('options', myOptions);
+         return img;
+      },
+
+      /**
+       * Given an <img> element that was created with utils.responsiveImage()
+       * this will alter the .src to the most appropriate size according to the
+       * container.
+       */
+      adjustResponsiveImage: function(img) {
+         if (!img.is(':visible')) {
+            return;
+         }
+
+         var options = img.data('options');
+         responsiveImageInitialDimensions[options.positionName] = img.width();
+         img.attr('src', chooseImageUrlByWidth(img.width(), options.urls));
+      },
+
+      adjustAllResponsiveImages: function() {
+         $('img.responsive').each(function(i,img) {
+            utils.adjustResponsiveImage($(img));
+         });
       },
 
       /**
@@ -166,6 +206,9 @@ Dozuki.utils = (function() {
       return $(document.createElement(tag));
    }
 
+   /**
+    * Given a number X, find the smallest image size name that has a width > X
+    */
    function getImageSizeWiderThan(width, urls) {
       var largestExistingSize;
       for (var i=0; i< imageSizes.length; i++) {
@@ -177,5 +220,18 @@ Dozuki.utils = (function() {
          }
       }
       return largestExistingSize;
+   }
+
+   /**
+    * Given a css px width, choose an appropriate image url from the given map
+    * of size-name:url. This takes into account the device pixel ratio (i.e.
+    * retina displays).
+    */
+   function chooseImageUrlByWidth(desiredWidth, urls) {
+      var devPixelRatio = (window.devicePixelRatio || 1);
+      var desiredDevicePixels = desiredWidth * devPixelRatio;
+      var appropriateSize = getImageSizeWiderThan(desiredDevicePixels, urls);
+
+      return urls[appropriateSize];
    }
 })();
