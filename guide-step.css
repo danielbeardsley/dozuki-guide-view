@@ -169,3 +169,26 @@ ul.step-lines {
    padding-left:1.2em;
 }
 
+
+/***************************************************************************
+ * Transitions -- classBased
+ */
+
+.guide-step {
+   left:-100%;
+   width:100%;
+   right:auto;
+   transition: 0.3s left ease-in-out;
+}
+
+.guide-step.forward {
+   left:100%;
+}
+
+.guide-step.backward {
+   left:-100%;
+}
+
+.guide-step.current {
+   left:0;
+}

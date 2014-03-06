@@ -14,8 +14,8 @@ Dozuki.GuideView = function (guide) {
       })
       stepController = new Dozuki.StepsController(
          guide.steps,
-         container,
-         Dozuki.Transitions.immediate);
+         container);
+      new Dozuki.Transitions.classBased(stepController);
 
       container.append(createTopBar());
       new Dozuki.KeyboardControl(stepController);
@@ -23,7 +23,7 @@ Dozuki.GuideView = function (guide) {
       stepController.on('stepChange', function(number) {
          Dozuki.utils.adjustAllResponsiveImages();
       });
-      stepController.show(0);
+      stepController.showNext();
 
       var resizeResponsiveImages = Dozuki.utils.throttler(
        500, Dozuki.utils.adjustAllResponsiveImages).fire;
@@ -58,12 +58,34 @@ Dozuki.GuideView = function (guide) {
 };
 
 Dozuki.Transitions = {
-   immediate: function immediateTransition(stepController) {
+   immediate: function (stepController) {
       stepController.on('stepChange',
       function (number, fromStep, toStep) {
          if (fromStep) fromStep.getElement().hide();
          toStep.getElement().show();
       });
+   },
+   classBased: function (stepController) {
+      stepController.on('stepChange',
+      function (number, fromStep, toStep, direction) {
+         if (fromStep) {
+            setClass(fromStep, direction * -1);
+         }
+         setClass(toStep, 0);
+      });
+      stepController.on('stepPreload',
+      function (step, direction) {
+         setClass(step, direction);
+      });
+
+      function setClass(step, direction) {
+         var element = step.getElement();
+         element.removeClass('backward current forward');
+         element.addClass(direction == 0 ?
+                          'current' :
+                          (direction > 0 ? 'forward' : 'backward'));
+         element.show();
+      }
    }
 }
 
@@ -83,11 +105,11 @@ Dozuki.StepsController = function(steps, containerEl) {
    var renderedSteps = {};
    var currentStepNumber = -1;
 
-   function show(number) {
+   function show(number, direction) {
       var fromStep = getStep(currentStepNumber);
       var toStep = getStep(number);
       currentStepNumber = number;
-      self.trigger('stepChange', number+1, fromStep, toStep);
+      self.trigger('stepChange', number+1, fromStep, toStep, direction);
    }
 
    this.show = show;
@@ -97,8 +119,8 @@ Dozuki.StepsController = function(steps, containerEl) {
       var number = currentStepNumber + 1;
       if (number >= steps.length)
          return; 
-      show(number);
-      preloadStep(number + 1)
+      preloadStep(number + 1, +1)
+      show(number, +1);
    }
 
    this.showPrev =
@@ -106,8 +128,8 @@ Dozuki.StepsController = function(steps, containerEl) {
       var number = currentStepNumber - 1;
       if (number < 0)
          return; 
-      show(number);
-      preloadStep(number - 1)
+      preloadStep(number - 1, -1)
+      show(number, -1);
    }
 
    function getStep(number) {
@@ -127,8 +149,11 @@ Dozuki.StepsController = function(steps, containerEl) {
     * Load the resources needed for the provided step. Effectively just add it
     * to the DOM
     */
-   function preloadStep(number) {
-      self.trigger('stepPreload', getStep(number));
+   function preloadStep(number, direction) {
+      var step = getStep(number);
+      if (step) {
+         self.trigger('stepPreload', step, direction);
+      }
    }
 }
 
