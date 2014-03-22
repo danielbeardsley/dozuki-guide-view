@@ -18,6 +18,17 @@
             display:block;
             background-color:#e0e0e0;
          }
+
+         #loading .errorText {
+            color:#c22;
+            font-size:18px;
+            font-weight:100;
+            display:none;
+         }
+         #loading.error .errorText {
+            display:inline;
+         }
+
          #loading > #loadingCenter {
             text-align:center;
             top:40%;
@@ -52,11 +63,17 @@
          @keyframes rotate-throbber {
              100% { transform: rotate(360deg); }
          }
+         #loading.error .throbber {
+            display:none;
+         }
       </style>
    </head>
    <body style="background-color:#e0e0e0;">
       <div id="loading">
-         <div id="loadingCenter"><div class="throbber"></div></div>
+         <div id="loadingCenter">
+            <div class="throbber"></div>
+            <span class="errorText">Guide not found</span>
+         </div>
       </div>
       <div style="display:none;">
          <header id='header'>
@@ -90,6 +107,8 @@
             console.log(guideid[1]);
             dozuki.guides.get(guideid[1]).then(function(guide) {
                var guideView = new Dozuki.GuideView(guide);
+            }).fail(function() {
+               $('#loading').addClass('error');
             });
          });
       </script>
