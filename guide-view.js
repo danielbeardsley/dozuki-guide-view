@@ -23,7 +23,8 @@ Dozuki.GuideView = function (guide) {
       stepController.on('stepChange', function(number) {
          Dozuki.utils.adjustAllResponsiveImages();
       });
-      stepController.showNext();
+      stepController.showNext(
+         function() {$('#loading').addClass('fade')});
 
       var resizeResponsiveImages = _.debounce(
        Dozuki.utils.adjustAllResponsiveImages, 500);
@@ -105,22 +106,24 @@ Dozuki.StepsController = function(steps, containerEl) {
    var renderedSteps = {};
    var currentStepNumber = -1;
 
-   function show(number, direction) {
+   function show(number, direction, callback) {
       var fromStep = getStep(currentStepNumber);
       var toStep = getStep(number);
       currentStepNumber = number;
       self.trigger('stepChange', number+1, fromStep, toStep, direction);
+      if (callback)
+         setTimeout(callback, 200);
    }
 
    this.show = show;
 
    this.showNext =
-   function showNext() {
+   function showNext(callback) {
       var number = currentStepNumber + 1;
       if (number >= steps.length)
          return; 
       preloadStep(number + 1, +1)
-      show(number, +1);
+      show(number, +1, callback);
    }
 
    this.showPrev =
